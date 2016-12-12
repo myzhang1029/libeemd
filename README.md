@@ -105,6 +105,12 @@ Rlibeemd, the R interface to libeemd
 There is also a R interface to libeemd. It is available separately at
 <https://github.com/helske/Rlibeemd>.
 
+Julia interface
+---------------
+
+A [Julia](http://julialang.org/) interface to libeemd is available at
+<https://github.com/merl-dev/LibEmd>.
+
 Developing libeemd
 ------------------
 
