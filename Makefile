@@ -1,6 +1,8 @@
 .PHONY: all clean install uninstall
 
 version := 1.4.1
+src_files := $(wildcard src/*.c) $(wildcard src/%.h)
+obj_files := $(patsubst src/%.c,obj/%.o,$(filter %.c,$(src_files)))
 gsl_flags := $(shell pkg-config --libs --cflags gsl)
 ifeq ($(gsl_flags),)
 $(error Failed to query GSL complilation flags from pkg-config)
@@ -47,14 +49,14 @@ uninstall:
 obj:
 	mkdir -p obj
 
-obj/eemd.o: src/eemd.c src/eemd.h | obj
+obj/%.o: src/%.c src/%.h | obj
 	gcc $(commonflags) -c $< $(gsl_flags) -o $@
 
-libeemd.a: obj/eemd.o
+libeemd.a: $(obj_files)
 	$(AR) rcs $@ $^
 
-libeemd.so.$(version): src/eemd.c src/eemd.h
-	gcc $(commonflags) $< -fPIC -shared -Wl,$(SONAME),$@ $(gsl_flags) -o $@
+libeemd.so.$(version): $(src_files)
+	gcc $(commonflags) $(filter %.c,$^) -fPIC -shared -Wl,$(SONAME),$@ $(gsl_flags) -o $@
 	ln -sf $@ libeemd.so
 
 eemd.h: src/eemd.h
