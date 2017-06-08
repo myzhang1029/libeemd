@@ -804,7 +804,7 @@ libeemd_error_code emd_evaluate_spline(double const* restrict x, double const* r
 	for (size_t i=2; i<=n-2; i++) {
 		const double h_i = x[i+1] - x[i];
 		const double h_im1 = x[i] - x[i-1];
-		
+
 		subdiag[i-2] = h_im1;
 		diag[i-1] = 2*(h_im1 + h_i);
 		supdiag[i-1] = h_i;
