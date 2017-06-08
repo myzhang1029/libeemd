@@ -37,9 +37,6 @@
 #include <gsl/gsl_statistics_double.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_linalg.h>
-#include <gsl/gsl_poly.h>
 
 #ifdef _OPENMP
 #include <omp.h>
