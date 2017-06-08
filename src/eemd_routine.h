@@ -16,16 +16,16 @@
  * along with libeemd.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _EEMD_SPLINE_H_
-#define _EEMD_SPLINE_H_
+#ifndef _EEMD_ROUTINE_H_
+#define _EEMD_ROUTINE_H_
 
-#include <assert.h>
-#include <math.h>
+#include <gsl/gsl_statistics_double.h>
+#include <gsl/gsl_randist.h>
 
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_linalg.h>
-#include <gsl/gsl_poly.h>
+#include "lock.h"
+#include "array.h"
+#include "emd.h"
 
 #include "eemd.h"
 
-#endif // _EEMD_SPLINE_H_
+#endif // _EEMD_ROUTINE_H_

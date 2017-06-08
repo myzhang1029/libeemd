@@ -19,6 +19,8 @@
 #ifndef _EEMD_ARRAY_H_
 #define _EEMD_ARRAY_H_
 
+#include <string.h>
+
 // Helper functions for working with data arrays
 inline void array_copy(double const* restrict src, size_t n, double* restrict dest) {
 	memcpy(dest, src, n*sizeof(double));

@@ -29,18 +29,8 @@
 #endif
 #endif
 
-#include <assert.h>
-#include <limits.h>
-#include <string.h>
-#include <math.h>
-#include <stdbool.h>
-#include <gsl/gsl_statistics_double.h>
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-
-#ifdef _OPENMP
-#include <omp.h>
-#endif
+#include <stddef.h>
+#include <stdio.h>
 
 // Possible error codes returned by functions eemd, ceemdan and
 // emd_evaluate_spline

@@ -16,11 +16,7 @@
  * along with libeemd.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "eemd.h"
-
-#include "lock.h"
-#include "array.h"
-#include "emd.h"
+#include "eemd_routine.h"
 
 // Main EEMD decomposition routine definition
 libeemd_error_code eemd(double const* restrict input, size_t N,

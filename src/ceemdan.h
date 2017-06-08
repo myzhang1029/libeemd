@@ -19,6 +19,9 @@
 #ifndef _EEMD_CEEMDAN_H_
 #define _EEMD_CEEMDAN_H_
 
+#include <gsl/gsl_statistics_double.h>
+#include <gsl/gsl_randist.h>
+
 #include "eemd.h"
 #include "lock.h"
 #include "array.h"

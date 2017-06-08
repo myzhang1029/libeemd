@@ -21,6 +21,7 @@
 
 #include <string.h>
 #include <stddef.h>
+#include <math.h>
 
 #include "array.h"
 #include "error.h"
