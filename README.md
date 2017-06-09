@@ -96,6 +96,8 @@ pyeemd, the Python interface to libeemd
 The official Python interface to libeemd is called [pyeemd][]. You should
 definitely try it, since data analysis with Python is much more fun than with
 C. More documentation about [pyeemd][] can be found at [Read the Docs](http://pyeemd.readthedocs.org/).
+The pyeemd package also contains extensive unit tests that make sure everything
+in libeemd is working as intended.
 
 [pyeemd]: https://bitbucket.org/luukko/pyeemd
 
