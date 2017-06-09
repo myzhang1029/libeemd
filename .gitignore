@@ -1,4 +1,4 @@
-/obj/eemd.o
+/obj/*.o
 /libeemd.so*
 /libeemd.a
 /eemd.h

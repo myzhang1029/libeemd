@@ -1,6 +1,7 @@
 Notable changes from previous release:
 
 In development:
+	* Better modularization of the source code
 
 Version 1.4.1:
 	* Fix bug in CEEMDAN SNR fixing introduced in 1.4; in some cases
