@@ -31,6 +31,7 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include <complex.h>
 
 extern const char* libeemd_version;
 
@@ -93,6 +94,18 @@ libeemd_error_code ceemdan(double const* restrict input, size_t N,
 		double* restrict output, size_t M,
 		unsigned int ensemble_size, double noise_strength, unsigned int
 		S_number, unsigned int num_siftings, unsigned long int rng_seed);
+
+// Bivariate EMD described in:
+//   G. Rilling, P. Flandrin, P. Goncalves and J. M. Lilly,
+//   Bivariate Empirical Mode Decomposition
+//   IEEE Signal Processing Letters, vol. 14, no. 12, pp. 936-939, Dec. 2007.
+//
+// Parameters 'directions' and 'num_directions' define a vector of directions (phi_k in
+// the article) used for the decomposition.
+libeemd_error_code bemd(double complex const* restrict input, size_t N,
+		double const* restrict directions, size_t num_directions,
+		double complex* restrict output, size_t M,
+		unsigned int num_siftings);
 
 // A method for finding the local minima and maxima from input data specified
 // with parameters x and N. The memory for storing the coordinates of the
