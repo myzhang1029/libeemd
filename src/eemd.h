@@ -32,6 +32,8 @@
 #include <stddef.h>
 #include <stdio.h>
 
+extern const char* libeemd_version;
+
 // Possible error codes returned by functions eemd, ceemdan and
 // emd_evaluate_spline
 typedef enum {

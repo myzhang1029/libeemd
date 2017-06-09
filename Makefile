@@ -11,6 +11,7 @@ gsl_flags += -DHAVE_INLINE
 commonflags := -Wall -Wextra -std=c99 -pedantic -Wno-unknown-pragmas -Wshadow -Wpointer-arith
 commonflags += $(CFLAGS)
 commonflags += -g -DEEMD_DEBUG=0
+commonflags += -DEEMD_VERSION=\"$(version)\"
 commonflags += -fopenmp
 PREFIX ?= /usr
 
