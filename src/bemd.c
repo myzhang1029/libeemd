@@ -72,7 +72,7 @@ static libeemd_error_code _bemd_sift_once(double complex* restrict x, size_t N, 
 		}
 	}
 	// Scale m
-	complex_array_mult(m, N, 2.0/(double)N);
+	complex_array_mult(m, N, 2.0/(double)num_directions);
 	// Subtract mean from input
 	complex_array_sub(m, N, x);
 	// Done
