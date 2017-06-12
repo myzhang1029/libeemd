@@ -95,7 +95,7 @@ libeemd_error_code ceemdan(double const* restrict input, size_t N,
 		unsigned int ensemble_size, double noise_strength, unsigned int
 		S_number, unsigned int num_siftings, unsigned long int rng_seed);
 
-// Bivariate EMD described in:
+// Bivariate EMD described as scheme 2 in:
 //   G. Rilling, P. Flandrin, P. Goncalves and J. M. Lilly,
 //   Bivariate Empirical Mode Decomposition
 //   IEEE Signal Processing Letters, vol. 14, no. 12, pp. 936-939, Dec. 2007.
