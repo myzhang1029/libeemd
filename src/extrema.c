@@ -97,10 +97,10 @@ void emd_find_extrema(double const* restrict x, size_t N,
 		}
 	}
 	// Add the other end of the data as extrema as well.
-	maxx[*nmax] = N-1;
+	maxx[*nmax] = (double)(N-1);
 	maxy[*nmax] = x[N-1];
 	(*nmax)++;
-	minx[*nmin] = N-1;
+	minx[*nmin] = (double)(N-1);
 	miny[*nmin] = x[N-1];
 	(*nmin)++;
 	// If we have at least two interior extrema, test if linear extrapolation provides
@@ -111,7 +111,7 @@ void emd_find_extrema(double const* restrict x, size_t N,
 		if (max_el > maxy[0])
 			maxy[0] = max_el;
 		const double max_er = linear_extrapolate(maxx[*nmax-3], maxy[*nmax-3],
-				maxx[*nmax-2], maxy[*nmax-2], N-1);
+				maxx[*nmax-2], maxy[*nmax-2], (double)(N-1));
 		if (max_er > maxy[*nmax-1])
 			maxy[*nmax-1] = max_er;
 	}
@@ -121,7 +121,7 @@ void emd_find_extrema(double const* restrict x, size_t N,
 		if (min_el < miny[0])
 			miny[0] = min_el;
 		const double min_er = linear_extrapolate(minx[*nmin-3], miny[*nmin-3],
-				minx[*nmin-2], miny[*nmin-2], N-1);
+				minx[*nmin-2], miny[*nmin-2], (double)(N-1));
 		if (min_er < miny[*nmin-1])
 			miny[*nmin-1] = min_er;
 	}
@@ -175,7 +175,7 @@ void emd_find_maxima(double const* restrict x, size_t N, double* restrict maxx, 
 		}
 	}
 	// Add the other end of the data as extrema as well.
-	maxx[*nmax] = N-1;
+	maxx[*nmax] = (double)(N-1);
 	maxy[*nmax] = x[N-1];
 	(*nmax)++;
 	// If we have at least two interior extrema, test if linear extrapolation provides
@@ -186,7 +186,7 @@ void emd_find_maxima(double const* restrict x, size_t N, double* restrict maxx, 
 		if (max_el > maxy[0])
 			maxy[0] = max_el;
 		const double max_er = linear_extrapolate(maxx[*nmax-3], maxy[*nmax-3],
-				maxx[*nmax-2], maxy[*nmax-2], N-1);
+				maxx[*nmax-2], maxy[*nmax-2], (double)(N-1));
 		if (max_er > maxy[*nmax-1])
 			maxy[*nmax-1] = max_er;
 	}
