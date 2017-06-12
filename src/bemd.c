@@ -94,6 +94,8 @@ libeemd_error_code bemd(double complex const* restrict input, size_t N,
 	double complex* const x = malloc(N*sizeof(double complex));
 	complex_array_copy(input, N, x);
 	double complex* const res = malloc(N*sizeof(double complex));
+	// For the first iteration, the residual is the original input data
+	complex_array_copy(input, N, res);
 	bemd_sifting_workspace* w = allocate_bemd_sifting_workspace(N, NULL);
 	// Loop over all IMFs to be separated from input
 	for (size_t imf_i=0; imf_i<M-1; imf_i++) {
@@ -101,10 +103,6 @@ libeemd_error_code bemd(double complex const* restrict input, size_t N,
 			// Except for the first iteration, restore the previous residual
 			// and use it as an input
 			complex_array_copy(res, N, x);
-		}
-		else {
-			// For the first iteration, the residual is the original input data
-			complex_array_copy(input, N, res);
 		}
 		// Perform siftings on x until it is an IMF
 		for (unsigned int sift_counter=0; sift_counter<num_siftings; sift_counter++) {
