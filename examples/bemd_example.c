@@ -38,13 +38,13 @@ int main(void) {
 	// Decompose a synthetic signal made out of rotating components
 	double complex* inp = malloc(N*sizeof(double complex));
 	for (size_t i=0; i<N; i++) {
-		const double t = 2*pi*i/(double)N;
+		const double t = 2*pi*(double)i/(double)N;
 		inp[i] = cos(0.3*t)*cexp(2*I*t) + 0.3*fabs(sin(2.3*t))*cexp(17*I*t);
 	}
 	// Use evenly spaced angles as directions
 	double* directions = malloc(num_directions*sizeof(double));
 	for (size_t d=0; d<num_directions; d++) {
-		directions[d] = 2*pi*(d+1)/(double)num_directions;
+		directions[d] = 2*pi*(double)(d+1)/(double)num_directions;
 	}
 	// Allocate memory for output data
 	double complex* outp = malloc(num_imfs*N*sizeof(double complex));

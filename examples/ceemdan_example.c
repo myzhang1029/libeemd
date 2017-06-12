@@ -25,7 +25,7 @@ const double pi = M_PI;
 
 #include "eemd.h"
 
-const size_t ensemble_size = 500;
+const unsigned int ensemble_size = 500;
 const unsigned int S_number = 4;
 const unsigned int num_siftings = 50;
 const double noise_strength = 0.02;

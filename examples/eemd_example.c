@@ -24,7 +24,7 @@ const double pi = M_PI;
 
 #include "eemd.h"
 
-const size_t ensemble_size = 250;
+const unsigned int ensemble_size = 250;
 const unsigned int S_number = 4;
 const unsigned int num_siftings = 50;
 const double noise_strength = 0.2;
@@ -34,7 +34,7 @@ const char outfile[] = "eemd_example.out";
 // An example signal to decompose
 const size_t N = 1024;
 static inline double input_signal(double x) {
-	const double omega = 2*pi/(N-1);
+	const double omega = 2*pi/(double)(N-1);
 	return sin(17*omega*x)+0.5*(1.0-exp(-0.002*x))*sin(51*omega*x+1);
 }
 
