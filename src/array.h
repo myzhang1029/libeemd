@@ -54,16 +54,16 @@ static inline void array_mult(double* dest, size_t n, double val) {
 
 // Versions for complex-valued arrays
 
-inline void complex_array_copy(double complex const* restrict src, size_t n, double complex* restrict dest) {
+static inline void complex_array_copy(double complex const* restrict src, size_t n, double complex* restrict dest) {
 	memcpy(dest, src, n*sizeof(double complex));
 }
 
-inline void complex_array_sub(double complex const* src, size_t n, double complex* dest) {
+static inline void complex_array_sub(double complex const* src, size_t n, double complex* dest) {
 	for (size_t i=0; i<n; i++)
 		dest[i] -= src[i];
 }
 
-inline void complex_array_mult(double complex* dest, size_t n, double val) {
+static inline void complex_array_mult(double complex* dest, size_t n, double val) {
 	for (size_t i=0; i<n; i++)
 		dest[i] *= val;
 }
