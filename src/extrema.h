@@ -26,7 +26,7 @@
 
 // Helper function for extrapolating data at the ends. For a line passing
 // through (x0, y0), (x1, y1), and (x, y), return y for a given x.
-inline double linear_extrapolate(double x0, double y0,
+static inline double linear_extrapolate(double x0, double y0,
 		double x1, double y1, double x) {
 	assert(x1 != x0);
 	return y0 + (y1-y0)*(x-x0)/(x1-x0);

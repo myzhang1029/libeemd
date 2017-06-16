@@ -22,31 +22,31 @@
 #include <string.h>
 
 // Helper functions for working with data arrays
-inline void array_copy(double const* restrict src, size_t n, double* restrict dest) {
+static inline void array_copy(double const* restrict src, size_t n, double* restrict dest) {
 	memcpy(dest, src, n*sizeof(double));
 }
 
-inline void array_add(double const* src, size_t n, double* dest) {
+static inline void array_add(double const* src, size_t n, double* dest) {
 	for (size_t i=0; i<n; i++)
 		dest[i] += src[i];
 }
 
-inline void array_add_to(double const* src1, double const* src2, size_t n, double* dest) {
+static inline void array_add_to(double const* src1, double const* src2, size_t n, double* dest) {
 	for (size_t i=0; i<n; i++)
 		dest[i] = src1[i] + src2[i];
 }
 
-inline void array_addmul_to(double const* src1, double const* src2, double val, size_t n, double* dest) {
+static inline void array_addmul_to(double const* src1, double const* src2, double val, size_t n, double* dest) {
 	for (size_t i=0; i<n; i++)
 		dest[i] = src1[i] + val*src2[i];
 }
 
-inline void array_sub(double const* src, size_t n, double* dest) {
+static inline void array_sub(double const* src, size_t n, double* dest) {
 	for (size_t i=0; i<n; i++)
 		dest[i] -= src[i];
 }
 
-inline void array_mult(double* dest, size_t n, double val) {
+static inline void array_mult(double* dest, size_t n, double val) {
 	for (size_t i=0; i<n; i++)
 		dest[i] *= val;
 }
