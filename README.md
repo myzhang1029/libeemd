@@ -3,9 +3,15 @@ libeemd – a C library for performing the ensemble empirical mode decomposition
 
 libeemd is a C library for performing the ensemble empirical mode decomposition
 (EEMD), its complete variant (CEEMDAN) or the regular empirical mode
-decomposition (EMD). The details of what libeemd actually computes are
-available as a separate [article][], which you should read if you are unsure
-about what EMD, EEMD and CEEMDAN are.
+decomposition (EMD).
+
+Citing libeemd
+--------------
+
+If you use libeemd for scientific work please cite [*Luukko, P.J.J., Helske, J.
+& Räsänen, E., Comput. Stat. **31**, 545 (2016)*][article]. This article also
+describes in detail what libeemd actually computes. You should definitely read
+it if you are unsure about what EMD, EEMD and CEEMDAN are.
 
 [article]: https://dx.doi.org/10.1007/s00180-015-0603-9
 
@@ -96,6 +102,8 @@ pyeemd, the Python interface to libeemd
 The official Python interface to libeemd is called [pyeemd][]. You should
 definitely try it, since data analysis with Python is much more fun than with
 C. More documentation about [pyeemd][] can be found at [Read the Docs](http://pyeemd.readthedocs.org/).
+The pyeemd package also contains extensive unit tests that make sure everything
+in libeemd is working as intended.
 
 [pyeemd]: https://bitbucket.org/luukko/pyeemd
 

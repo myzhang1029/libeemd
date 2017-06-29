@@ -29,21 +29,10 @@
 #endif
 #endif
 
-#include <assert.h>
-#include <limits.h>
-#include <string.h>
-#include <math.h>
-#include <stdbool.h>
-#include <gsl/gsl_statistics_double.h>
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_linalg.h>
-#include <gsl/gsl_poly.h>
+#include <stddef.h>
+#include <stdio.h>
 
-#ifdef _OPENMP
-#include <omp.h>
-#endif
+extern const char* libeemd_version;
 
 // Possible error codes returned by functions eemd, ceemdan and
 // emd_evaluate_spline
@@ -85,6 +74,9 @@ void emd_report_to_file_if_error(FILE* file, libeemd_error_code err);
 // the sifting ends when either criterion is fulfilled. The final parameter is
 // the seed given to the random number generator. A value of zero denotes a
 // RNG-specific default value.
+//
+// To compute the original EMD decomposition you can use this function with
+// ensemble_size = 1 and noise_strength = 0.
 libeemd_error_code eemd(double const* restrict input, size_t N,
 		double* restrict output, size_t M,
 		unsigned int ensemble_size, double noise_strength, unsigned int
