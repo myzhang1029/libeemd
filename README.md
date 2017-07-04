@@ -9,11 +9,12 @@ Citing libeemd
 --------------
 
 If you use libeemd for scientific work please cite [*Luukko, P.J.J., Helske, J.
-& Räsänen, E., Comput. Stat. **31**, 545 (2016)*][article]. This article also
+& Räsänen, E., Comput. Stat. **31**, 545 (2016)*][article] ([arXiv][]). This article also
 describes in detail what libeemd actually computes. You should definitely read
 it if you are unsure about what EMD, EEMD and CEEMDAN are.
 
 [article]: https://dx.doi.org/10.1007/s00180-015-0603-9
+[arXiv]: https://arxiv.org/abs/1707.00487
 
 Acquiring libeemd
 -----------------
