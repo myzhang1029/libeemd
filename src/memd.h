@@ -1,4 +1,4 @@
-/* Copyright 2013 Perttu Luukko
+/* Copyright 2017 Perttu Luukko
 
  * This file is part of libeemd.
 
@@ -19,7 +19,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <math.h>
-#include <complex.h>
 #include <gsl/gsl_errno.h>
 
 #include "array.h"
@@ -28,13 +27,13 @@
 #include "spline.h"
 #include "eemd.h"
 
-// For BEMD sifting we need arrays for storing the found maxima of the signal,
+// For MEMD sifting we need arrays for storing the found maxima of the signal,
 // memory required to form the spline envelopes, and a shared lock to compute
 // different directions in parallel.
 typedef struct {
 	// Number of samples in the signal
 	size_t N;
-	// Input signal projected to a particular direction in the complex plane
+	// Input signal projected to a particular direction
 	double* projected_signal;
 	// Found maxima
 	double* restrict maxx;
@@ -46,8 +45,8 @@ typedef struct {
 	double* restrict spline_workspace;
 	// Lock
 	lock* output_lock;
-} bemd_sifting_workspace;
+} memd_sifting_workspace;
 
-bemd_sifting_workspace* allocate_bemd_sifting_workspace(size_t N, lock* output_lock);
-void free_bemd_sifting_workspace(bemd_sifting_workspace* w);
+memd_sifting_workspace* allocate_memd_sifting_workspace(size_t N, lock* output_lock);
+void free_memd_sifting_workspace(memd_sifting_workspace* w);
 

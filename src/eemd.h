@@ -95,16 +95,25 @@ libeemd_error_code ceemdan(double const* restrict input, size_t N,
 		unsigned int ensemble_size, double noise_strength, unsigned int
 		S_number, unsigned int num_siftings, unsigned long int rng_seed);
 
-// Bivariate EMD described as scheme 2 in:
-//   G. Rilling, P. Flandrin, P. Goncalves and J. M. Lilly,
-//   Bivariate Empirical Mode Decomposition
-//   IEEE Signal Processing Letters, vol. 14, no. 12, pp. 936-939, Dec. 2007.
+// Multivariate EMD as described in:
+//  Multivariate empirical mode decomposition
+//  N. Rehman and D. P. Mandic
+//  Proceedings: Mathematical, Physical and Engineering Sciences
+//  Vol. 466, No. 2117 (8 May 2010), pp. 1291-1302
+//  doi:10.1098/rspa.2009.050
+
+// Parameter 'input' is a two-dimensional NxD array containing N observations
+// with D components. The 'directions' vector defines the projection directions
+// as a 'num_directions'xD array. The first 'M' IMFs are extracted and stored
+// as a MxD array in 'output'. If M=0 the value returned by emd_num_imfs is
+// used. All arrays are in row-major format. Other parameters are as for
+// routine 'eemd'.
 //
-// Parameters 'directions' and 'num_directions' define a vector of directions (phi_k in
-// the article) used for the decomposition.
-libeemd_error_code bemd(double complex const* restrict input, size_t N,
+// The case D=2 is equivalent to the Bivariate EMD, and D=3 to the Trivariate
+// EMD.
+libeemd_error_code memd(double const* restrict input, size_t D, size_t N,
 		double const* restrict directions, size_t num_directions,
-		double complex* restrict output, size_t M,
+		double* restrict output, size_t M,
 		unsigned int num_siftings);
 
 // A method for finding the local minima and maxima from input data specified

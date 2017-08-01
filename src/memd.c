@@ -1,4 +1,4 @@
-/* Copyright 2013 Perttu Luukko
+/* Copyright 2017 Perttu Luukko
 
  * This file is part of libeemd.
 
@@ -16,10 +16,10 @@
  * along with libeemd.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "bemd.h"
+#include "memd.h"
 
-bemd_sifting_workspace* allocate_bemd_sifting_workspace(size_t N, lock* output_lock) {
-	bemd_sifting_workspace* w = malloc(sizeof(bemd_sifting_workspace));
+memd_sifting_workspace* allocate_memd_sifting_workspace(size_t N, lock* output_lock) {
+	memd_sifting_workspace* w = malloc(sizeof(memd_sifting_workspace));
 	w->N = N;
 	w->projected_signal = malloc(N*sizeof(double));
 	w->maxx = malloc(N*sizeof(double));
@@ -34,7 +34,7 @@ bemd_sifting_workspace* allocate_bemd_sifting_workspace(size_t N, lock* output_l
 	return w;
 }
 
-void free_bemd_sifting_workspace(bemd_sifting_workspace* w) {
+void free_memd_sifting_workspace(memd_sifting_workspace* w) {
 	free(w->projected_signal); w->projected_signal = NULL;
 	free(w->maxx); w->maxx = NULL;
 	free(w->maxy); w->maxy = NULL;
@@ -44,7 +44,7 @@ void free_bemd_sifting_workspace(bemd_sifting_workspace* w) {
 }
 
 
-static libeemd_error_code _bemd_sift_once(double complex* restrict x, size_t N, double const* restrict directions, size_t num_directions, bemd_sifting_workspace* w) {
+static libeemd_error_code _memd_sift_once(double complex* restrict x, size_t D, size_t N, double const* restrict directions, size_t num_directions, memd_sifting_workspace* w) {
 	libeemd_error_code errcode = EMD_SUCCESS;
 	double complex* restrict m = calloc(N, sizeof(double complex));
 	double* const px = w->projected_signal;
@@ -80,47 +80,46 @@ static libeemd_error_code _bemd_sift_once(double complex* restrict x, size_t N, 
 	return errcode;
 }
 
-
-libeemd_error_code bemd(double complex const* restrict input, size_t N,
+libeemd_error_code memd(double const* restrict input, size_t D, size_t N,
 		double const* restrict directions, size_t num_directions,
-		double complex* restrict output, size_t M,
+		double* restrict output, size_t M,
 		unsigned int num_siftings) {
 	gsl_set_error_handler_off();
 	if (M == 0) {
 		M = emd_num_imfs(N);
 	}
-	libeemd_error_code bemd_err = EMD_SUCCESS;
+	libeemd_error_code memd_err = EMD_SUCCESS;
 	// Create a read-write copy of input data
-	double complex* const x = malloc(N*sizeof(double complex));
-	complex_array_copy(input, N, x);
-	double complex* const res = malloc(N*sizeof(double complex));
+	double* const x = malloc(N*Dsizeof(double));
+	array_copy(input, N*D, x);
+	double* const res = malloc(N*D*sizeof(double));
 	// For the first iteration, the residual is the original input data
-	complex_array_copy(input, N, res);
-	bemd_sifting_workspace* w = allocate_bemd_sifting_workspace(N, NULL);
+	array_copy(input, N*D, res);
+	memd_sifting_workspace* w = allocate_memd_sifting_workspace(N, NULL);
 	// Loop over all IMFs to be separated from input
 	for (size_t imf_i=0; imf_i<M-1; imf_i++) {
 		if (imf_i != 0) {
 			// Except for the first iteration, restore the previous residual
 			// and use it as an input
-			complex_array_copy(res, N, x);
+			array_copy(res, N*D, x);
 		}
 		// Perform siftings on x until it is an IMF
 		for (unsigned int sift_counter=0; sift_counter<num_siftings; sift_counter++) {
-			bemd_err = _bemd_sift_once(x, N, directions, num_directions, w);
-			if (bemd_err != EMD_SUCCESS) {
-				return bemd_err;
+			memd_err = _memd_sift_once(x, D, N, directions, num_directions, w);
+			if (memd_err != EMD_SUCCESS) {
+				return memd_err;
 			}
 		}
 		// Subtract this IMF from the saved copy to form the residual for
 		// the next round
-		complex_array_sub(x, N, res);
+		array_sub(x, N*D, res);
 		// Write the discovered IMF to the output matrix
-		complex_array_copy(x, N, output+N*imf_i);
+		array_copy(x, N*D, output+N*imf_i);
 	}
 	// Save final residual
-	complex_array_copy(res, N, output+N*(M-1));
-	free_bemd_sifting_workspace(w);
+	array_copy(res, N*D, output+N*(M-1));
+	free_memd_sifting_workspace(w);
 	free(res);
 	free(x);
-	return bemd_err;
+	return memd_err;
 }
