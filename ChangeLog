@@ -1,6 +1,7 @@
 Notable changes from previous release:
 
 In development:
+	* Implement Bivariate EMD
 	* Better modularization of the source code
 	* Store version string in the library
 

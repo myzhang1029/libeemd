@@ -20,6 +20,7 @@
 #define _EEMD_ARRAY_H_
 
 #include <string.h>
+#include <complex.h>
 
 // Helper functions for working with data arrays
 static inline void array_copy(double const* restrict src, size_t n, double* restrict dest) {
@@ -47,6 +48,22 @@ static inline void array_sub(double const* src, size_t n, double* dest) {
 }
 
 static inline void array_mult(double* dest, size_t n, double val) {
+	for (size_t i=0; i<n; i++)
+		dest[i] *= val;
+}
+
+// Versions for complex-valued arrays
+
+static inline void complex_array_copy(double complex const* restrict src, size_t n, double complex* restrict dest) {
+	memcpy(dest, src, n*sizeof(double complex));
+}
+
+static inline void complex_array_sub(double complex const* src, size_t n, double complex* dest) {
+	for (size_t i=0; i<n; i++)
+		dest[i] -= src[i];
+}
+
+static inline void complex_array_mult(double complex* dest, size_t n, double val) {
 	for (size_t i=0; i<n; i++)
 		dest[i] *= val;
 }

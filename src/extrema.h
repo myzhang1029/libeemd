@@ -32,4 +32,8 @@ static inline double linear_extrapolate(double x0, double y0,
 	return y0 + (y1-y0)*(x-x0)/(x1-x0);
 }
 
+// Provide a maxima-only version for BEMD. This leads to code duplication but
+// making emd_find_extrema more generic would slow down other EMD functions.
+void emd_find_maxima(double const* restrict x, size_t N, double* restrict maxx, double* restrict maxy, size_t* num_max_ptr);
+
 #endif // _EEMD_EXTREMA_H_
