@@ -18,10 +18,12 @@
 
 #include "memd.h"
 
-memd_sifting_workspace* allocate_memd_sifting_workspace(size_t N, lock* output_lock) {
+memd_sifting_workspace* allocate_memd_sifting_workspace(size_t N, size_t D, lock* output_lock) {
 	memd_sifting_workspace* w = malloc(sizeof(memd_sifting_workspace));
 	w->N = N;
+	w->D = D;
 	w->projected_signal = malloc(N*sizeof(double));
+	w->mean = malloc(N*D*sizeof(double));
 	w->maxx = malloc(N*sizeof(double));
 	w->maxy = malloc(N*sizeof(double));
 	w->maxspline = malloc(N*sizeof(double));
@@ -36,6 +38,7 @@ memd_sifting_workspace* allocate_memd_sifting_workspace(size_t N, lock* output_l
 
 void free_memd_sifting_workspace(memd_sifting_workspace* w) {
 	free(w->projected_signal); w->projected_signal = NULL;
+	free(w->mean); w->mean = NULL;
 	free(w->maxx); w->maxx = NULL;
 	free(w->maxy); w->maxy = NULL;
 	free(w->maxspline); w->maxspline = NULL;
@@ -44,39 +47,39 @@ void free_memd_sifting_workspace(memd_sifting_workspace* w) {
 }
 
 
-static libeemd_error_code _memd_sift_once(double complex* restrict x, size_t D, size_t N, double const* restrict directions, size_t num_directions, memd_sifting_workspace* w) {
+static libeemd_error_code _memd_sift_once(double* restrict x, size_t D, size_t N, double const* restrict directions, size_t num_directions, memd_sifting_workspace* w) {
 	libeemd_error_code errcode = EMD_SUCCESS;
-	double complex* restrict m = calloc(N, sizeof(double complex));
 	double* const px = w->projected_signal;
+	double* const m = w->mean;
+	// Ensure w->mean is zeroed
+	memset(m, 0, N*D*sizeof(double));
 	// TODO: handle different directions in parallel
 	for (size_t direction_i=0; direction_i<num_directions; direction_i++) {
-		const double phi = directions[direction_i];
-		const double sin_phi = sin(phi);
-		const double cos_phi = cos(phi);
-		// Project signal
-		for (size_t i=0; i<N; i++) {
-			const double a = creal(x[i]);
-			const double b = cimag(x[i]);
-			px[i] = a*cos_phi + b*sin_phi;
-		}
-		// Find maxima
+		double const* phi = directions + D*direction_i;
+		// Project signal (don't you just love the clarity of CBLAS calls?)
+		cblas_dgemv(CblasRowMajor, CblasNoTrans, N, D, 1, x, N, x, 1, 0, px, 1);
+		// Find maxima in the projected signal
+		// TODO: find just the maxx
 		emd_find_maxima(px, N, w->maxx, w->maxy, &(w->num_max));
-		// Fit spline
-		errcode = emd_evaluate_spline(w->maxx, w->maxy, w->num_max, w->maxspline, w->spline_workspace);
-		if (errcode != EMD_SUCCESS) {
-			return errcode;
-		}
-		// Add to m
-		for (size_t i=0; i<N; i++) {
-			m[i] += cexp(phi*I) * (w->maxspline)[i];
+		// Fit spline to each component of x
+		for (size_t d=0; d<D; d++) {
+			// TODO: Needs an implementation of spline evaluation that adds the
+			// result to a vector instead of setting it.
+			errcode = emd_evaluate_spline(w->maxx, x, w->num_max, w->maxspline, w->spline_workspace);
+			if (errcode != EMD_SUCCESS) {
+				return errcode;
+			}
+			// Add to m
+			for (size_t i=0; i<N; i++) {
+				m[i] += cexp(phi*I) * (w->maxspline)[i];
+			}
 		}
 	}
 	// Scale m
-	complex_array_mult(m, N, 2.0/(double)num_directions);
+	array_mult(m, N*D, 1.0/(double)num_directions);
 	// Subtract mean from input
-	complex_array_sub(m, N, x);
+	array_sub(m, N*D, x);
 	// Done
-	free(m); m = NULL;
 	return errcode;
 }
 

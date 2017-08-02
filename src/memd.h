@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <gsl/gsl_errno.h>
+#include <gsl/gsl_cblas.h>
 
 #include "array.h"
 #include "lock.h"
@@ -33,8 +34,12 @@
 typedef struct {
 	// Number of samples in the signal
 	size_t N;
+	// Number of components in each sample
+	size_t D;
 	// Input signal projected to a particular direction
 	double* projected_signal;
+	// Local mean
+	double* mean
 	// Found maxima
 	double* restrict maxx;
 	double* restrict maxy;
@@ -47,6 +52,6 @@ typedef struct {
 	lock* output_lock;
 } memd_sifting_workspace;
 
-memd_sifting_workspace* allocate_memd_sifting_workspace(size_t N, lock* output_lock);
+memd_sifting_workspace* allocate_memd_sifting_workspace(size_t N, size_t D, lock* output_lock);
 void free_memd_sifting_workspace(memd_sifting_workspace* w);
 
