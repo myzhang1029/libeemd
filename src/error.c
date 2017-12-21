@@ -40,42 +40,54 @@ libeemd_error_code validate_eemd_parameters(unsigned int ensemble_size, double n
 }
 
 // Helper functions for printing what error codes mean
+
+void emd_error_string(libeemd_error_code err, char* err_string) {
+	if (err == EMD_SUCCESS) {
+		return;
+	}
+	switch (err) {
+		case EMD_INVALID_ENSEMBLE_SIZE :
+			strcpy(err_string, "Invalid ensemble size (zero or negative)");
+			break;
+		case EMD_INVALID_NOISE_STRENGTH :
+			strcpy(err_string, "Invalid noise strength (negative)");
+			break;
+		case EMD_NOISE_ADDED_TO_EMD :
+			strcpy(err_string, "Positive noise strength but ensemble size is one (regular EMD)");
+			break;
+		case EMD_NO_NOISE_ADDED_TO_EEMD :
+			strcpy(err_string, "Ensemble size is more than one (EEMD) but noise strength is zero");
+			break;
+		case EMD_NO_CONVERGENCE_POSSIBLE :
+			strcpy(err_string, "Stopping criteria invalid: would never converge");
+			break;
+		case EMD_NOT_ENOUGH_POINTS_FOR_SPLINE :
+			strcpy(err_string, "Spline evaluation tried with insufficient points");
+			break;
+		case EMD_INVALID_SPLINE_POINTS :
+			strcpy(err_string, "Spline evaluation points invalid");
+			break;
+		case EMD_GSL_ERROR :
+			strcpy(err_string, "Error reported by GSL library");
+			break;
+		case EMD_NO_CONVERGENCE_IN_SIFTING :
+			strcpy(err_string, "Convergence not reached after sifting 10000 times");
+			break;
+		default :
+			strcpy(err_string, "Error code with unknown meaning. Please file a bug!");
+			break;
+	}
+}
+
 void emd_report_to_file_if_error(FILE* file, libeemd_error_code err) {
 	if (err == EMD_SUCCESS) {
 		return;
 	}
-	fprintf(file, "libeemd error: ");
-	switch (err) {
-		case EMD_INVALID_ENSEMBLE_SIZE :
-			fprintf(file, "Invalid ensemble size (zero or negative)\n");
-			break;
-		case EMD_INVALID_NOISE_STRENGTH :
-			fprintf(file, "Invalid noise strength (negative)\n");
-			break;
-		case EMD_NOISE_ADDED_TO_EMD :
-			fprintf(file, "Positive noise strength but ensemble size is one (regular EMD)\n");
-			break;
-		case EMD_NO_NOISE_ADDED_TO_EEMD :
-			fprintf(file, "Ensemble size is more than one (EEMD) but noise strength is zero\n");
-			break;
-		case EMD_NO_CONVERGENCE_POSSIBLE :
-			fprintf(file, "Stopping criteria invalid: would never converge\n");
-			break;
-		case EMD_NOT_ENOUGH_POINTS_FOR_SPLINE :
-			fprintf(file, "Spline evaluation tried with insufficient points\n");
-			break;
-		case EMD_INVALID_SPLINE_POINTS :
-			fprintf(file, "Spline evaluation points invalid\n");
-			break;
-		case EMD_GSL_ERROR :
-			fprintf(file, "Error reported by GSL library\n");
-			break;
-		case EMD_NO_CONVERGENCE_IN_SIFTING :
-			fprintf(file, "Convergence not reached after sifting 10000 times\n");
-			break;
-		default :
-			fprintf(file, "Error code with unknown meaning. Please file a bug!\n");
-	}
+	fputs("libeemd error: ", file);
+	char* err_string = malloc(64 * sizeof(char));
+	emd_error_string(err, err_string);
+	fputs(err_string, file);
+	free(err_string); err_string = NULL;
 }
 
 void emd_report_if_error(libeemd_error_code err) {

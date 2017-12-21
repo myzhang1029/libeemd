@@ -20,6 +20,8 @@
 #define _EEMD_ERROR_H_
 
 #include "eemd.h"
+#include "string.h"
+#include "stdlib.h"
 
 libeemd_error_code validate_eemd_parameters(unsigned int ensemble_size, double noise_strength, unsigned int S_number, unsigned int num_siftings);
 

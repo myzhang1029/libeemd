@@ -53,6 +53,7 @@ typedef enum {
 } libeemd_error_code;
 
 // Helper functions to print an error message if an error occured
+void emd_error_string(libeemd_error_code err, char* err_string);
 void emd_report_if_error(libeemd_error_code err);
 void emd_report_to_file_if_error(FILE* file, libeemd_error_code err);
 
