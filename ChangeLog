@@ -3,6 +3,9 @@ Notable changes from previous release:
 In development:
 	* Better modularization of the source code
 	* Store version string in the library
+	* Make S-number criterion more robust by explicitly checking the
+	  signs of minima and maxima. This partially undoes the changes done
+	  for 1.3
 
 Version 1.4.1:
 	* Fix bug in CEEMDAN SNR fixing introduced in 1.4; in some cases
