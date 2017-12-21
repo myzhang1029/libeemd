@@ -70,6 +70,9 @@ void emd_report_to_file_if_error(FILE* file, libeemd_error_code err) {
 		case EMD_GSL_ERROR :
 			fprintf(file, "Error reported by GSL library\n");
 			break;
+		case EMD_NO_CONVERGENCE_IN_SIFTING :
+			fprintf(file, "Convergence not reached after sifting 10000 times\n");
+			break;
 		default :
 			fprintf(file, "Error code with unknown meaning. Please file a bug!\n");
 	}

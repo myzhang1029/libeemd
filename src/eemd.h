@@ -48,7 +48,8 @@ typedef enum {
 	EMD_NOT_ENOUGH_POINTS_FOR_SPLINE = 6,
 	EMD_INVALID_SPLINE_POINTS = 7,
 	// Other errors
-	EMD_GSL_ERROR = 8
+	EMD_GSL_ERROR = 8,
+	EMD_NO_CONVERGENCE_IN_SIFTING = 9
 } libeemd_error_code;
 
 // Helper functions to print an error message if an error occured

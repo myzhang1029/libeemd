@@ -39,11 +39,9 @@ libeemd_error_code _sift(double* restrict input, sifting_workspace*
 	bool all_extrema_good = false;
 	while (num_siftings == 0 || *sift_counter < num_siftings) {
 		(*sift_counter)++;
-		#if EEMD_DEBUG >= 1
-		if (*sift_counter == 10000) {
-			fprintf(stderr, "Something is probably wrong. Sift counter has reached 10000.\n");
+		if (*sift_counter >= 10000) {
+			return EMD_NO_CONVERGENCE_IN_SIFTING;
 		}
-		#endif
 		prev_num_max = num_max;
 		prev_num_min = num_min;
 		// Find extrema
