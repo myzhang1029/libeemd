@@ -9,6 +9,7 @@ $(error Failed to query GSL complilation flags from pkg-config)
 endif
 gsl_flags += -DHAVE_INLINE
 commonflags := -Wall -Wextra -std=c99 -pedantic -Wno-unknown-pragmas -Wshadow -Wpointer-arith
+commonflags += -O2
 commonflags += $(CFLAGS)
 commonflags += -g -DEEMD_DEBUG=0
 commonflags += -DEEMD_VERSION=\"$(version)\"
