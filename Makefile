@@ -1,6 +1,6 @@
 .PHONY: all clean install uninstall
 
-version := 1.4.1
+version := 1.5.0
 src_files := $(wildcard src/*.c) $(wildcard src/%.h)
 obj_files := $(patsubst src/%.c,obj/%.o,$(filter %.c,$(src_files)))
 gsl_flags := $(shell pkg-config --libs --cflags gsl)

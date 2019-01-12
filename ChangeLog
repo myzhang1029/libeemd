@@ -1,6 +1,6 @@
 Notable changes from previous release:
 
-In development:
+Version 1.5.0:
 	* Better modularization of the source code
 	* Store version string in the library
 	* Make S-number criterion more robust by explicitly checking the
