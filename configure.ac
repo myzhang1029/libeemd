@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.71])
+AC_PREREQ([2.69])
 AC_INIT([libeemd], [1.4.1], [https://bitbucket.org/luukko/libeemd/issues])
 AC_CONFIG_SRCDIR([src/eemd.c])
 AC_CONFIG_MACRO_DIRS([m4])
@@ -24,12 +24,9 @@ AC_CHECK_LIB([gsl], [gsl_strerror], [], [
 ])
 
 # Checks for header files.
-AC_CHECK_HEADERS([
-        gsl/gsl_statistics_double.h gsl/gsl_rng.h gsl/gsl_randist.h
-        gsl/gsl_vector.h gsl/gsl_linalg.h gsl/gsl_poly.h
-    ], [], [
-        AC_MSG_ERROR([Cannot find gsl headers. Try setting CFLAGS.])
-])
+AC_CHECK_HEADERS([gsl/gsl_statistics_double.h gsl/gsl_rng.h gsl/gsl_randist.h \
+                  gsl/gsl_vector.h gsl/gsl_linalg.h gsl/gsl_poly.h
+                  ], [], [AC_MSG_ERROR([Cannot find gsl headers. Try setting CFLAGS.])])
 
 # Enable OpenMP if found
 AC_OPENMP
@@ -44,7 +41,7 @@ AC_C_RESTRICT
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_FUNC_MALLOC
+#AC_FUNC_MALLOC
 AC_CHECK_FUNCS([memset])
 
 AC_CONFIG_FILES([Makefile
