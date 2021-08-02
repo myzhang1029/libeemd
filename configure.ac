@@ -6,7 +6,7 @@ AC_INIT([libeemd], [1.4.1], [https://bitbucket.org/luukko/libeemd/issues])
 AC_CONFIG_SRCDIR([src/eemd.c])
 AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-LT_INIT
+LT_INIT([win32-dll])
 #AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
